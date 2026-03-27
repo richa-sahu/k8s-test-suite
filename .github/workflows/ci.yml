@@ -1,0 +1,65 @@
+name: k8s-test-suite CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+
+      - name: Install kind
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.22.0/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+
+      - name: Install Sonobuoy
+        run: |
+          SONOBUOY_VERSION=0.57.1
+          curl -Lo sonobuoy.tar.gz https://github.com/vmware-tanzu/sonobuoy/releases/download/v${SONOBUOY_VERSION}/sonobuoy_${SONOBUOY_VERSION}_linux_amd64.tar.gz
+          tar -xzf sonobuoy.tar.gz
+          sudo mv sonobuoy /usr/local/bin/
+          rm sonobuoy.tar.gz
+
+      - name: Create kind cluster
+        run: kind create cluster --config kind-config.yaml --name k8s-test-suite --wait 60s
+
+      - name: Verify cluster
+        run: kubectl get nodes
+
+      - name: Run tests
+        run: pytest tests/ -v --alluredir=allure-results
+
+      - name: Upload Allure results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results
+          path: allure-results/
+
+      - name: Delete kind cluster
+        if: always()
+        run: kind delete cluster --name k8s-test-suite

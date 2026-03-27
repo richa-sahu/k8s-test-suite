@@ -1,0 +1,8 @@
+Release "test-app" does not exist. Installing it now.
+NAME: test-app
+LAST DEPLOYED: Fri Mar 27 16:32:19 2026
+NAMESPACE: test-target
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
