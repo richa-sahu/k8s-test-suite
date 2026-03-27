@@ -1,6 +1,6 @@
 # k8s-test-suite
 
-![CI](https://github.com/richa-sahu/k8s-test-suite/actions/workflows/ci.yml/badge.svg)
+[![CI](https://github.com/richa-sahu/k8s-test-suite/actions/workflows/ci.yml/badge.svg)](https://github.com/richa-sahu/k8s-test-suite/actions/workflows/ci.yml)
 
 A Kubernetes-native test framework for cluster validation, deployment verification, and service connectivity testing using Python, Pytest, Helm, and Sonobuoy.
 
