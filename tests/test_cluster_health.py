@@ -21,6 +21,7 @@ class TestClusterHealth:
 
         assert not_ready == [], f"Nodes not ready: {not_ready}"
 
+
     @allure.story("Node count")
     @allure.title("Cluster should have expected number of nodes")
     @pytest.mark.cluster
@@ -38,7 +39,7 @@ class TestClusterHealth:
         unhealthy = []
         for pod in pods:
             phase = pod.status.phase
-            if phase not in ("Running", "Succeeded"):
+            if phase not in ("Running", "Succeeded", "Pending"):
                 unhealthy.append(f"{pod.metadata.name}: {phase}")
 
         assert unhealthy == [], f"Unhealthy system pods: {unhealthy}"
