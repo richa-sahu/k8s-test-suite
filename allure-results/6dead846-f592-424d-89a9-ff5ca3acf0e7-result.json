@@ -1,1 +1,0 @@
-{"name": "Sonobuoy quick mode should complete without errors", "status": "passed", "start": 1774596843472, "stop": 1774597535611, "uuid": "5f20df97-3ab2-4acd-9767-c672b865c77c", "testCaseId": "a5792f2bd9cb5627a3e8364d2db7f337", "fullName": "tests.test_sonobuoy_results.TestSonobuoyResults#test_sonobuoy_run_completes"}
